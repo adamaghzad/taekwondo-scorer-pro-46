@@ -40,7 +40,7 @@ const TournamentBracket = ({ matches, onMatchUpdate }: TournamentBracketProps) =
 
   const startMatch = (match: Match) => {
     if (match.participant1 && match.participant2) {
-      navigate('/scoreboard', {
+      navigate('/index', {
         state: {
           bluePlayer: {
             ...match.participant1,
