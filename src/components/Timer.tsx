@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 
 interface TimerProps {
-  initialTime: number;
   round: number;
   isRunning: boolean;
+  isRest: boolean;
   onTimeEnd: () => void;
 }
 
-const Timer = ({ initialTime, round, isRunning, onTimeEnd }: TimerProps) => {
-  const [time, setTime] = useState(initialTime);
+const Timer = ({ round, isRunning, isRest, onTimeEnd }: TimerProps) => {
+  const ROUND_TIME = 60; // 1 minute
+  const REST_TIME = 30; // 30 seconds
+  const [time, setTime] = useState(ROUND_TIME);
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -29,6 +31,10 @@ const Timer = ({ initialTime, round, isRunning, onTimeEnd }: TimerProps) => {
     return () => clearInterval(interval);
   }, [isRunning, time, onTimeEnd]);
 
+  useEffect(() => {
+    setTime(isRest ? REST_TIME : ROUND_TIME);
+  }, [round, isRest]);
+
   const minutes = Math.floor(time / 60);
   const seconds = time % 60;
 
@@ -38,7 +44,7 @@ const Timer = ({ initialTime, round, isRunning, onTimeEnd }: TimerProps) => {
         {minutes}:{seconds.toString().padStart(2, '0')}
       </div>
       <div className="text-2xl">
-        ROUND
+        {isRest ? 'REST' : 'ROUND'}
         <div className="text-4xl font-bold">{round}</div>
       </div>
     </div>

@@ -9,6 +9,7 @@ interface PlayerCardProps {
   trunkScore: number;
   gamJeomScore: number;
   technicalScore: number;
+  roundsWon: number;
 }
 
 const PlayerCard = ({
@@ -20,6 +21,7 @@ const PlayerCard = ({
   trunkScore,
   gamJeomScore,
   technicalScore,
+  roundsWon,
 }: PlayerCardProps) => {
   const bgColor = color === 'blue' ? 'bg-tkd-blue' : 'bg-tkd-red';
   
@@ -45,6 +47,10 @@ const PlayerCard = ({
           <div>Technical</div>
           <div className="font-bold">{technicalScore}</div>
         </div>
+      </div>
+      <div className="mt-4 text-tkd-gold">
+        <div>Rounds Won</div>
+        <div className="font-bold text-2xl">{roundsWon}</div>
       </div>
     </div>
   );
