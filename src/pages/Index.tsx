@@ -1,7 +1,7 @@
-import Scoreboard from '@/components/Scoreboard';
+import TournamentManager from '@/components/TournamentManager';
 
 const Index = () => {
-  return <Scoreboard />;
+  return <TournamentManager />;
 };
 
 export default Index;
