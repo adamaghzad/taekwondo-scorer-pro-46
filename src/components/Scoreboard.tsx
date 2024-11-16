@@ -21,11 +21,7 @@ interface Player {
   roundsWon: number;
 }
 
-interface ScoreboardProps {
-  onMatchComplete?: (winner: 'blue' | 'red', victoryType: 'PTF' | 'RSC' | 'WDR' | 'DSQ' | 'DQB') => void;
-}
-
-const Scoreboard: React.FC<ScoreboardProps> = ({ onMatchComplete }) => {
+const Scoreboard = () => {
   const [round, setRound] = useState(1);
   const [isRunning, setIsRunning] = useState(false);
   const [isRest, setIsRest] = useState(false);
@@ -65,10 +61,6 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ onMatchComplete }) => {
     const winnerName = winner === 'blue' ? bluePlayer.name : redPlayer.name;
     const victoryMessage = `${winnerName} wins by ${type}${reason ? ` (${reason})` : ''}`;
     toast(victoryMessage);
-
-    if (onMatchComplete) {
-      onMatchComplete(winner, type);
-    }
   };
 
   const handleKnockdown = (player: 'blue' | 'red') => {
