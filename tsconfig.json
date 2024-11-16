@@ -7,8 +7,12 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+
     },
+    "jsx": "react-jsx", // For React 17+ with automatic runtime
+    "types": ["react", "react-dom"],
+    "strict": true, 
     "noImplicitAny": false,
     "noUnusedParameters": false,
     "skipLibCheck": true,

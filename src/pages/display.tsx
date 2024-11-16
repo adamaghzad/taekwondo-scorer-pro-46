@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import PlayerCard from './PlayerCard';
-import Timer from './Timer';
+import PlayerCard from '@/components/PlayerCard';
+import Timer from '@/components/Timer';
 import { toast } from 'sonner';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Button } from './ui/button';
+import { Button } from '@/components/ui/button';
 import { ScoringType } from '@/utils/scoringUtils';
-import MatchHeader from './match/MatchHeader';
-import MatchControls from './match/MatchControls';
+import MatchHeader from '@/components/match/MatchHeader';
+
 
 
 type VictoryType = 'PTF' | 'RSC' | 'WDR' | 'DSQ' | 'DQB' | null;
@@ -24,7 +24,7 @@ interface Player {
   roundsWon: number;
 }
 
-const Scoreboard = () => {
+const Display = () => {
   const location = useLocation();
   const { bluePlayer: initialBluePlayer, redPlayer: initialRedPlayer, matchId } = location.state || {};
   
@@ -176,66 +176,11 @@ const Scoreboard = () => {
           <PlayerCard {...redPlayer} color="red" />
         </div>
 
-        <MatchControls 
-          onScore={handleScore}
-          onStartStop={() => setIsRunning(!isRunning)}
-          onKnockdown={handleKnockdown}
-          isRunning={isRunning}
-        />
-
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button className="mt-8 bg-yellow-500 hover:bg-yellow-600">
-              Special Victory Conditions
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Special Victory Conditions</DialogTitle>
-            </DialogHeader>
-            <div className="grid grid-cols-2 gap-4">
-              <Button onClick={() => endMatch('blue', 'WDR')} className="bg-blue-500">
-                Blue Wins by Withdrawal
-              </Button>
-              <Button onClick={() => endMatch('red', 'WDR')} className="bg-red-500">
-                Red Wins by Withdrawal
-              </Button>
-              <Button onClick={() => endMatch('blue', 'DSQ')} className="bg-blue-500">
-                Blue Wins by Disqualification
-              </Button>
-              <Button onClick={() => endMatch('red', 'DSQ')} className="bg-red-500">
-                Red Wins by Disqualification
-              </Button>
-              <Button onClick={() => endMatch('blue', 'DQB')} className="bg-blue-500">
-                Blue Wins by Behavior DQ
-              </Button>
-              <Button onClick={() => endMatch('red', 'DQB')} className="bg-red-500">
-                Red Wins by Behavior DQ
-              </Button>
-              <Button onClick={() => endMatch('blue', 'RSC', 'REFUSAL')} className="bg-blue-500">
-                Blue Wins by Refusal
-              </Button>
-              <Button onClick={() => endMatch('red', 'RSC', 'REFUSAL')} className="bg-red-500">
-                Red Wins by Refusal
-              </Button>
-              <Button onClick={() => endMatch('blue', 'RSC', 'SAFETY')} className="bg-blue-500">
-                Blue Wins by Safety Stop
-              </Button>
-              <Button onClick={() => endMatch('red', 'RSC', 'SAFETY')} className="bg-red-500">
-                Red Wins by Safety Stop
-              </Button>
-              <Button onClick={() => endMatch('blue', 'RSC', 'MEDICAL')} className="bg-blue-500">
-                Blue Wins by Medical Stop
-              </Button>
-              <Button onClick={() => endMatch('red', 'RSC', 'MEDICAL')} className="bg-red-500">
-                Red Wins by Medical Stop
-              </Button>
-            </div>
-          </DialogContent>
-        </Dialog>
+       
+        
       </div>
     </div>
   );
 };
 
-export default Scoreboard;
+export default Display;
