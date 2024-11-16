@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { toast } from "sonner";
 import TournamentBracket from './TournamentBracket';
@@ -20,6 +19,7 @@ interface Match {
   participant2: Participant | null;
   winner: Participant | null;
   round: number;
+  isComplete: boolean;
 }
 
 const TournamentManager = () => {
@@ -49,7 +49,8 @@ const TournamentManager = () => {
         participant1: sortedParticipants[i] || null,
         participant2: sortedParticipants[i + 1] || null,
         winner: null,
-        round: 1
+        round: 1,
+        isComplete: false
       });
     }
 
@@ -102,6 +103,9 @@ const TournamentManager = () => {
             setMatches(matches.map(match => 
               match.id === updatedMatch.id ? updatedMatch : match
             ));
+            if (updatedMatch.winner) {
+              toast.success(`Match completed! Winner: ${updatedMatch.winner.name}`);
+            }
           }}
         />
       )}

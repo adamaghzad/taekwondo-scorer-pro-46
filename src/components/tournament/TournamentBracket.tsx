@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from 'react-router-dom';
 
 interface Participant {
   id: string;
@@ -16,6 +17,7 @@ interface Match {
   participant2: Participant | null;
   winner: Participant | null;
   round: number;
+  isComplete: boolean;
 }
 
 interface TournamentBracketProps {
@@ -24,11 +26,27 @@ interface TournamentBracketProps {
 }
 
 const TournamentBracket = ({ matches, onMatchUpdate }: TournamentBracketProps) => {
+  const navigate = useNavigate();
+
   const setWinner = (match: Match, winner: Participant) => {
     onMatchUpdate({
       ...match,
-      winner
+      winner,
+      isComplete: true
     });
+  };
+
+  const startMatch = (match: Match) => {
+    if (match.participant1 && match.participant2) {
+      // Navigate to scoreboard with match participants
+      navigate('/scoreboard', {
+        state: {
+          bluePlayer: match.participant1,
+          redPlayer: match.participant2,
+          matchId: match.id,
+        }
+      });
+    }
   };
 
   return (
@@ -52,8 +70,16 @@ const TournamentBracket = ({ matches, onMatchUpdate }: TournamentBracketProps) =
                 )}
               </div>
 
-              <div className="text-center">
-                vs
+              <div className="text-center space-y-2">
+                <div>vs</div>
+                {match.participant1 && match.participant2 && !match.isComplete && (
+                  <Button 
+                    onClick={() => startMatch(match)}
+                    className="bg-green-500 hover:bg-green-600"
+                  >
+                    Start Match
+                  </Button>
+                )}
               </div>
 
               <div className="space-y-2">
