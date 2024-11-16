@@ -37,7 +37,7 @@ const Scoreboard = () => {
   
   const [bluePlayer, setBluePlayer] = useState<Player>({
     name: initialBluePlayer?.name || 'Blue Player',
-    country: initialBluePlayer?.country || 'Unknown',
+    country: initialBluePlayer?.team || 'Unknown',
     score: 0,
     punchScore: 0,
     kickScore: 0,
