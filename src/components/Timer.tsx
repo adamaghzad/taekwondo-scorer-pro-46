@@ -11,7 +11,7 @@ const Timer = ({ initialTime, round, isRunning, onTimeEnd }: TimerProps) => {
   const [time, setTime] = useState(initialTime);
 
   useEffect(() => {
-    let interval: number;
+    let interval: NodeJS.Timeout;
 
     if (isRunning && time > 0) {
       interval = setInterval(() => {
