@@ -10,6 +10,7 @@ interface Participant {
   rank: string;
   category: string;
   team?: string;
+  country: string;
 }
 
 interface Match {
@@ -55,6 +56,25 @@ const TournamentBracket = ({ matches, onMatchUpdate }: TournamentBracketProps) =
     }
   };
 
+  const ParticipantInfo = ({ participant }: { participant: Participant | null }) => {
+    if (!participant) return <div className="text-gray-400">TBD</div>;
+    
+    return (
+      <div>
+        <div className="font-bold">{participant.name}</div>
+        <div className="text-sm text-gray-500">
+          {participant.country}
+        </div>
+        <div className="text-sm text-gray-500">
+          {participant.weight}kg - {participant.rank}
+        </div>
+        <div className="text-sm text-gray-400">
+          {participant.team || 'Independent'}
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="overflow-x-auto">
       <div className="min-w-[800px] p-4">
@@ -62,13 +82,7 @@ const TournamentBracket = ({ matches, onMatchUpdate }: TournamentBracketProps) =
           <Card key={match.id} className="p-4 mb-4">
             <div className="grid grid-cols-3 gap-4 items-center">
               <div className="space-y-2">
-                <div className="font-bold">{match.participant1?.name || 'TBD'}</div>
-                <div className="text-sm text-gray-500">
-                  {match.participant1 ? `${match.participant1.weight}kg - ${match.participant1.rank}` : ''}
-                </div>
-                <div className="text-sm text-gray-400">
-                  {match.participant1?.team || 'Independent'}
-                </div>
+                <ParticipantInfo participant={match.participant1} />
                 {match.participant1 && !match.winner && (
                   <Button 
                     size="sm"
@@ -92,13 +106,7 @@ const TournamentBracket = ({ matches, onMatchUpdate }: TournamentBracketProps) =
               </div>
 
               <div className="space-y-2">
-                <div className="font-bold">{match.participant2?.name || 'TBD'}</div>
-                <div className="text-sm text-gray-500">
-                  {match.participant2 ? `${match.participant2.weight}kg - ${match.participant2.rank}` : ''}
-                </div>
-                <div className="text-sm text-gray-400">
-                  {match.participant2?.team || 'Independent'}
-                </div>
+                <ParticipantInfo participant={match.participant2} />
                 {match.participant2 && !match.winner && (
                   <Button 
                     size="sm"
@@ -112,7 +120,7 @@ const TournamentBracket = ({ matches, onMatchUpdate }: TournamentBracketProps) =
 
             {match.winner && (
               <div className="mt-4 text-center text-green-600 font-bold">
-                Winner: {match.winner.name}
+                Winner: {match.winner.name} ({match.winner.country})
               </div>
             )}
           </Card>
