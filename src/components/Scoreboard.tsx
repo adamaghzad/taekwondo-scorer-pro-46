@@ -4,13 +4,8 @@ import Timer from './Timer';
 import ScoreControls from './ScoreControls';
 import { toast } from 'sonner';
 import { Button } from './ui/button';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { ScoringType, getPointsForAction } from '@/utils/scoringUtils';
 
 type VictoryType = 'PTF' | 'RSC' | 'WDR' | 'DSQ' | 'DQB' | null;
 type RSCReason = 'KO' | 'REFUSAL' | 'SAFETY' | 'MEDICAL' | null;
@@ -19,10 +14,10 @@ interface Player {
   name: string;
   country: string;
   score: number;
-  headScore: number;
-  trunkScore: number;
+  punchScore: number;
+  kickScore: number;
+  turningKickScore: number;
   gamJeomScore: number;
-  technicalScore: number;
   roundsWon: number;
 }
 
@@ -39,10 +34,10 @@ const Scoreboard = () => {
     name: 'Eric',
     country: 'England',
     score: 0,
-    headScore: 0,
-    trunkScore: 0,
+    punchScore: 0,
+    kickScore: 0,
+    turningKickScore: 0,
     gamJeomScore: 0,
-    technicalScore: 0,
     roundsWon: 0
   });
   
@@ -50,10 +45,10 @@ const Scoreboard = () => {
     name: 'Ethan',
     country: 'Italy',
     score: 0,
-    headScore: 0,
-    trunkScore: 0,
+    punchScore: 0,
+    kickScore: 0,
+    turningKickScore: 0,
     gamJeomScore: 0,
-    technicalScore: 0,
     roundsWon: 0
   });
 
@@ -108,7 +103,7 @@ const Scoreboard = () => {
     return false;
   };
 
-  const handleScore = (player: 'blue' | 'red', points: number, type: 'head' | 'trunk' | 'gamJeom' | 'technical') => {
+  const handleScore = (player: 'blue' | 'red', points: number, type: ScoringType) => {
     if (matchEnded) return;
 
     const setPlayer = player === 'blue' ? setBluePlayer : setRedPlayer;
@@ -119,7 +114,7 @@ const Scoreboard = () => {
       const newScore = {
         ...prev,
         score: prev.score + points,
-        [type + 'Score']: prev[type + 'Score'] + points,
+        [`${type}Score`]: prev[`${type}Score`] + points,
       };
       
       toast(`${points} point(s) added to ${player.toUpperCase()} player`);

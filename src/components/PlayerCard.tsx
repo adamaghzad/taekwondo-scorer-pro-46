@@ -5,10 +5,10 @@ interface PlayerCardProps {
   country: string;
   color: 'blue' | 'red';
   score: number;
-  headScore: number;
-  trunkScore: number;
+  punchScore: number;
+  kickScore: number;
+  turningKickScore: number;
   gamJeomScore: number;
-  technicalScore: number;
   roundsWon: number;
 }
 
@@ -17,10 +17,10 @@ const PlayerCard = ({
   country,
   color,
   score,
-  headScore,
-  trunkScore,
+  punchScore,
+  kickScore,
+  turningKickScore,
   gamJeomScore,
-  technicalScore,
   roundsWon,
 }: PlayerCardProps) => {
   const bgColor = color === 'blue' ? 'bg-tkd-blue' : 'bg-tkd-red';
@@ -32,20 +32,20 @@ const PlayerCard = ({
       <div className="text-8xl font-bold mb-8">{score}</div>
       <div className="grid grid-cols-2 gap-4 text-xl">
         <div>
-          <div>Head</div>
-          <div className="font-bold">{headScore}</div>
+          <div>Punch</div>
+          <div className="font-bold">{punchScore}</div>
         </div>
         <div>
-          <div>Trunk</div>
-          <div className="font-bold">{trunkScore}</div>
+          <div>Kick</div>
+          <div className="font-bold">{kickScore}</div>
+        </div>
+        <div>
+          <div>Turning Kick</div>
+          <div className="font-bold">{turningKickScore}</div>
         </div>
         <div>
           <div>Gam-jeom</div>
           <div className="font-bold">{gamJeomScore}</div>
-        </div>
-        <div>
-          <div>Technical</div>
-          <div className="font-bold">{technicalScore}</div>
         </div>
       </div>
       <div className="mt-4 text-tkd-gold">

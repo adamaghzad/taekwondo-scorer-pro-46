@@ -1,8 +1,9 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
+import { ScoringType } from '@/utils/scoringUtils';
 
 interface ScoreControlsProps {
-  onScore: (points: number, type: 'head' | 'trunk' | 'gamJeom' | 'technical') => void;
+  onScore: (points: number, type: ScoringType) => void;
   onStartStop: () => void;
   isRunning: boolean;
 }
@@ -13,22 +14,22 @@ const ScoreControls = ({ onScore, onStartStop, isRunning }: ScoreControlsProps) 
       <div className="space-y-2">
         <h3 className="font-bold text-lg mb-2">Scoring Controls</h3>
         <Button 
-          onClick={() => onScore(3, 'head')}
+          onClick={() => onScore(1, 'punch')}
           className="w-full bg-blue-500 hover:bg-blue-600"
         >
-          Head Shot (+3)
+          Punch (+1)
         </Button>
         <Button 
-          onClick={() => onScore(2, 'trunk')}
+          onClick={() => onScore(2, 'kick')}
           className="w-full bg-green-500 hover:bg-green-600"
         >
-          Body Shot (+2)
+          Kick (+2)
         </Button>
         <Button 
-          onClick={() => onScore(1, 'technical')}
+          onClick={() => onScore(4, 'turningKick')}
           className="w-full bg-purple-500 hover:bg-purple-600"
         >
-          Technical Point (+1)
+          Turning Kick (+4)
         </Button>
         <Button 
           onClick={() => onScore(1, 'gamJeom')}
