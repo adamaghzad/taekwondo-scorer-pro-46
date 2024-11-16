@@ -3,6 +3,7 @@ import React from 'react';
 interface PlayerCardProps {
   name: string;
   country: string;
+  team?: string;
   color: 'blue' | 'red';
   score: number;
   punchScore: number;
@@ -15,6 +16,7 @@ interface PlayerCardProps {
 const PlayerCard = ({
   name,
   country,
+  team,
   color,
   score,
   punchScore,
@@ -28,7 +30,8 @@ const PlayerCard = ({
   return (
     <div className={`${bgColor} p-6 rounded-lg text-white w-[400px]`}>
       <div className="text-4xl font-bold mb-4">{name}</div>
-      <div className="text-2xl mb-6">{country}</div>
+      <div className="text-2xl mb-2">{country}</div>
+      <div className="text-xl mb-6 text-tkd-gold">{team || 'Independent'}</div>
       <div className="text-8xl font-bold mb-8">{score}</div>
       <div className="grid grid-cols-2 gap-4 text-xl">
         <div>
