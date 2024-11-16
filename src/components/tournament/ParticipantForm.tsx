@@ -15,7 +15,8 @@ const ParticipantForm = ({ onAddParticipant }: ParticipantFormProps) => {
       name: '',
       weight: '',
       rank: '',
-      category: ''
+      category: '',
+      team: ''
     }
   });
 
@@ -39,6 +40,19 @@ const ParticipantForm = ({ onAddParticipant }: ParticipantFormProps) => {
               <FormLabel>Name</FormLabel>
               <FormControl>
                 <Input {...field} placeholder="Participant name" />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="team"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Team/Club</FormLabel>
+              <FormControl>
+                <Input {...field} placeholder="Team or club name" />
               </FormControl>
             </FormItem>
           )}
