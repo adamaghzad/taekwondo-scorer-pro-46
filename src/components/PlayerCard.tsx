@@ -31,7 +31,11 @@ const PlayerCard = ({
     <div className={`${bgColor} p-6 rounded-lg text-white w-[400px]`}>
       <div className="text-4xl font-bold mb-4">{name}</div>
       <div className="text-2xl mb-2">{country}</div>
-      <div className="text-xl mb-6 text-tkd-gold">{team || 'Independent'}</div>
+      <div className="bg-black/30 p-3 rounded-md mb-6">
+        <div className="text-2xl font-digital text-tkd-gold font-bold tracking-wider">
+          {team || 'Independent'}
+        </div>
+      </div>
       <div className="text-8xl font-bold mb-8">{score}</div>
       <div className="grid grid-cols-2 gap-4 text-xl">
         <div>
