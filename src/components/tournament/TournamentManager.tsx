@@ -11,6 +11,8 @@ interface Participant {
   weight: number;
   rank: string;
   category: string;
+  team?: string;
+  country: string;
 }
 
 interface Match {
