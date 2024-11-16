@@ -32,7 +32,7 @@ const PlayerCard = ({
       <div className="text-4xl font-bold mb-4">{name}</div>
       <div className="text-2xl mb-2">{country}</div>
       <div className="bg-black/30 p-3 rounded-md mb-6">
-        <div className="text-2xl font-digital text-tkd-gold font-bold tracking-wider">
+        <div className="text-2xl font-digital text-tkd-gold font-bold tracking-[0.2em]">
           {team || 'Independent'}
         </div>
       </div>
