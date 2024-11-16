@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import PlayerCard from './PlayerCard';
 import Timer from './Timer';
-import ScoreControls from './ScoreControls';
 import { toast } from 'sonner';
-import { Button } from './ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { ScoringType, getPointsForAction } from '@/utils/scoringUtils';
+import { Button } from './ui/button';
+import { ScoringType } from '@/utils/scoringUtils';
+import MatchHeader from './match/MatchHeader';
+import MatchControls from './match/MatchControls';
 
 type VictoryType = 'PTF' | 'RSC' | 'WDR' | 'DSQ' | 'DQB' | null;
 type RSCReason = 'KO' | 'REFUSAL' | 'SAFETY' | 'MEDICAL' | null;
@@ -22,6 +24,9 @@ interface Player {
 }
 
 const Scoreboard = () => {
+  const location = useLocation();
+  const { bluePlayer: initialBluePlayer, redPlayer: initialRedPlayer, matchId } = location.state || {};
+  
   const [round, setRound] = useState(1);
   const [isRunning, setIsRunning] = useState(false);
   const [isRest, setIsRest] = useState(false);
@@ -31,8 +36,8 @@ const Scoreboard = () => {
   const [knockdownCount, setKnockdownCount] = useState(0);
   
   const [bluePlayer, setBluePlayer] = useState<Player>({
-    name: 'Eric',
-    country: 'England',
+    name: initialBluePlayer?.name || 'Blue Player',
+    country: initialBluePlayer?.country || 'Unknown',
     score: 0,
     punchScore: 0,
     kickScore: 0,
@@ -42,8 +47,8 @@ const Scoreboard = () => {
   });
   
   const [redPlayer, setRedPlayer] = useState<Player>({
-    name: 'Ethan',
-    country: 'Italy',
+    name: initialRedPlayer?.name || 'Red Player',
+    country: initialRedPlayer?.country || 'Unknown',
     score: 0,
     punchScore: 0,
     kickScore: 0,
@@ -153,15 +158,11 @@ const Scoreboard = () => {
   return (
     <div className="min-h-screen bg-gray-900 p-8">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-white mb-2">Men's 55kg</h1>
-          <h2 className="text-2xl text-tkd-gold">Match 1</h2>
-          {knockdownCount > 0 && (
-            <div className="text-6xl text-red-500 font-bold mt-4">
-              {knockdownCount}
-            </div>
-          )}
-        </div>
+        <MatchHeader 
+          category={`${initialBluePlayer?.category || "Men's"} ${initialBluePlayer?.weight || "55"}kg`}
+          matchNumber={`Match ${matchId || 1}`}
+          knockdownCount={knockdownCount}
+        />
         
         <div className="grid grid-cols-3 gap-8 mb-8">
           <PlayerCard {...bluePlayer} color="blue" />
@@ -174,34 +175,12 @@ const Scoreboard = () => {
           <PlayerCard {...redPlayer} color="red" />
         </div>
 
-        <div className="grid grid-cols-2 gap-8">
-          <div>
-            <ScoreControls 
-              onScore={(points, type) => handleScore('blue', points, type)}
-              onStartStop={() => setIsRunning(!isRunning)}
-              isRunning={isRunning}
-            />
-            <div className="mt-4">
-              <Button onClick={() => handleKnockdown('blue')} 
-                className="bg-red-500 hover:bg-red-600">
-                Blue Knockdown
-              </Button>
-            </div>
-          </div>
-          <div>
-            <ScoreControls 
-              onScore={(points, type) => handleScore('red', points, type)}
-              onStartStop={() => setIsRunning(!isRunning)}
-              isRunning={isRunning}
-            />
-            <div className="mt-4">
-              <Button onClick={() => handleKnockdown('red')} 
-                className="bg-red-500 hover:bg-red-600">
-                Red Knockdown
-              </Button>
-            </div>
-          </div>
-        </div>
+        <MatchControls 
+          onScore={handleScore}
+          onStartStop={() => setIsRunning(!isRunning)}
+          onKnockdown={handleKnockdown}
+          isRunning={isRunning}
+        />
 
         <Dialog>
           <DialogTrigger asChild>
