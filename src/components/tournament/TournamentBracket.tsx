@@ -9,6 +9,7 @@ interface Participant {
   weight: number;
   rank: string;
   category: string;
+  team?: string;
 }
 
 interface Match {
@@ -38,11 +39,16 @@ const TournamentBracket = ({ matches, onMatchUpdate }: TournamentBracketProps) =
 
   const startMatch = (match: Match) => {
     if (match.participant1 && match.participant2) {
-      // Navigate to scoreboard with match participants
       navigate('/scoreboard', {
         state: {
-          bluePlayer: match.participant1,
-          redPlayer: match.participant2,
+          bluePlayer: {
+            ...match.participant1,
+            team: match.participant1.team || 'Independent'
+          },
+          redPlayer: {
+            ...match.participant2,
+            team: match.participant2.team || 'Independent'
+          },
           matchId: match.id,
         }
       });
@@ -59,6 +65,9 @@ const TournamentBracket = ({ matches, onMatchUpdate }: TournamentBracketProps) =
                 <div className="font-bold">{match.participant1?.name || 'TBD'}</div>
                 <div className="text-sm text-gray-500">
                   {match.participant1 ? `${match.participant1.weight}kg - ${match.participant1.rank}` : ''}
+                </div>
+                <div className="text-sm text-gray-400">
+                  {match.participant1?.team || 'Independent'}
                 </div>
                 {match.participant1 && !match.winner && (
                   <Button 
@@ -86,6 +95,9 @@ const TournamentBracket = ({ matches, onMatchUpdate }: TournamentBracketProps) =
                 <div className="font-bold">{match.participant2?.name || 'TBD'}</div>
                 <div className="text-sm text-gray-500">
                   {match.participant2 ? `${match.participant2.weight}kg - ${match.participant2.rank}` : ''}
+                </div>
+                <div className="text-sm text-gray-400">
+                  {match.participant2?.team || 'Independent'}
                 </div>
                 {match.participant2 && !match.winner && (
                   <Button 
