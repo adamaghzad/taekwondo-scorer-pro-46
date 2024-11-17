@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { toast } from "sonner";
@@ -24,10 +24,31 @@ interface Match {
   isComplete: boolean;
 }
 
+const STORAGE_KEY = 'tournament_brackets';
+
 const TournamentManager = () => {
   const [participants, setParticipants] = useState<Participant[]>([]);
   const [matches, setMatches] = useState<Match[]>([]);
   const [showBracket, setShowBracket] = useState(false);
+
+  // Load saved brackets on component mount
+  useEffect(() => {
+    const savedData = localStorage.getItem(STORAGE_KEY);
+    if (savedData) {
+      const { participants: savedParticipants, matches: savedMatches } = JSON.parse(savedData);
+      setParticipants(savedParticipants);
+      setMatches(savedMatches);
+      setShowBracket(savedMatches.length > 0);
+    }
+  }, []);
+
+  // Save brackets whenever they change
+  useEffect(() => {
+    if (matches.length > 0) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ participants, matches }));
+      toast.success("Brackets saved successfully!");
+    }
+  }, [matches, participants]);
 
   const generateBrackets = () => {
     if (participants.length < 2) {
@@ -35,7 +56,6 @@ const TournamentManager = () => {
       return;
     }
 
-    // Sort participants by weight and rank
     const sortedParticipants = [...participants].sort((a, b) => {
       if (a.weight === b.weight) {
         return a.rank.localeCompare(b.rank);
@@ -43,7 +63,6 @@ const TournamentManager = () => {
       return a.weight - b.weight;
     });
 
-    // Generate matches
     const newMatches: Match[] = [];
     for (let i = 0; i < sortedParticipants.length; i += 2) {
       newMatches.push({

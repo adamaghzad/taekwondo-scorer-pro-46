@@ -9,7 +9,6 @@ import { ScoringType } from '@/utils/scoringUtils';
 import MatchHeader from './match/MatchHeader';
 import MatchControls from './match/MatchControls';
 
-
 type VictoryType = 'PTF' | 'RSC' | 'WDR' | 'DSQ' | 'DQB' | null;
 type RSCReason = 'KO' | 'REFUSAL' | 'SAFETY' | 'MEDICAL' | null;
 
@@ -113,25 +112,46 @@ const Scoreboard = () => {
     if (matchEnded) return;
 
     const setPlayer = player === 'blue' ? setBluePlayer : setRedPlayer;
-    const currentPlayer = player === 'blue' ? bluePlayer : redPlayer;
     const otherPlayer = player === 'blue' ? redPlayer : bluePlayer;
+    const setOtherPlayer = player === 'blue' ? setRedPlayer : setBluePlayer;
 
-    setPlayer(prev => {
-      const newScore = {
+    if (type === 'gamJeom') {
+      // When a Gam-Jeom is given, add a point to the opponent instead
+      setOtherPlayer(prev => ({
         ...prev,
         score: prev.score + points,
-        [`${type}Score`]: prev[`${type}Score`] + points,
-      };
+        gamJeomScore: prev.gamJeomScore
+      }));
       
-      toast(`${points} point(s) added to ${player.toUpperCase()} player`);
+      setPlayer(prev => ({
+        ...prev,
+        gamJeomScore: prev.gamJeomScore + 1
+      }));
+
+      toast(`Gam-Jeom given to ${player.toUpperCase()} player, point awarded to opponent`);
       
-      if (checkVictoryConditions(newScore, otherPlayer, player)) {
+      if (checkVictoryConditions(otherPlayer, player === 'blue' ? bluePlayer : redPlayer, player === 'blue' ? 'red' : 'blue')) {
         toast(`Round ${round} victory condition met!`);
         handleTimeEnd();
       }
-      
-      return newScore;
-    });
+    } else {
+      setPlayer(prev => {
+        const newScore = {
+          ...prev,
+          score: prev.score + points,
+          [`${type}Score`]: prev[`${type}Score`] + points,
+        };
+        
+        toast(`${points} point(s) added to ${player.toUpperCase()} player`);
+        
+        if (checkVictoryConditions(newScore, otherPlayer, player)) {
+          toast(`Round ${round} victory condition met!`);
+          handleTimeEnd();
+        }
+        
+        return newScore;
+      });
+    }
   };
 
   const handleTimeEnd = () => {
