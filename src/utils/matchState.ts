@@ -3,7 +3,7 @@ export interface MatchState {
     name: string;
     country: string;
     team?: string;
-    category?: string;
+    age?: number;
     weight?: number;
     score: number;
     punchScore: number;
@@ -16,7 +16,7 @@ export interface MatchState {
     name: string;
     country: string;
     team?: string;
-    category?: string;
+    age?: number;
     weight?: number;
     score: number;
     punchScore: number;

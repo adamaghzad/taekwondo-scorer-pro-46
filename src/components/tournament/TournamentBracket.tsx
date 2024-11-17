@@ -7,8 +7,8 @@ interface Participant {
   id: string;
   name: string;
   weight: number;
+  age: number;
   rank: string;
-  category: string;
   team?: string;
   country: string;
 }
@@ -66,7 +66,7 @@ const TournamentBracket = ({ matches, onMatchUpdate }: TournamentBracketProps) =
           {participant.country}
         </div>
         <div className="text-sm text-gray-500">
-          {participant.weight}kg - {participant.rank}
+          Age: {participant.age} | {participant.weight}kg | {participant.rank}
         </div>
         <div className="text-sm text-gray-400">
           {participant.team || 'Independent'}

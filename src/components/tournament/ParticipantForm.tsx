@@ -14,8 +14,8 @@ const ParticipantForm = ({ onAddParticipant }: ParticipantFormProps) => {
     defaultValues: {
       name: '',
       weight: '',
+      age: '',
       rank: '',
-      category: '',
       team: ''
     }
   });
@@ -24,7 +24,8 @@ const ParticipantForm = ({ onAddParticipant }: ParticipantFormProps) => {
     onAddParticipant({
       id: `p-${Date.now()}`,
       ...data,
-      weight: parseFloat(data.weight)
+      weight: parseFloat(data.weight),
+      age: parseInt(data.age)
     });
     form.reset();
   };
@@ -60,6 +61,19 @@ const ParticipantForm = ({ onAddParticipant }: ParticipantFormProps) => {
 
         <FormField
           control={form.control}
+          name="age"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Age</FormLabel>
+              <FormControl>
+                <Input {...field} type="number" min="0" placeholder="Age" />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
           name="weight"
           render={({ field }) => (
             <FormItem>
@@ -88,29 +102,6 @@ const ParticipantForm = ({ onAddParticipant }: ParticipantFormProps) => {
                   <SelectItem value="2nd Dan">2nd Dan</SelectItem>
                   <SelectItem value="3rd Dan">3rd Dan</SelectItem>
                   <SelectItem value="4th Dan">4th Dan</SelectItem>
-                </SelectContent>
-              </Select>
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="category"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Category</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select category" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectItem value="Flyweight">Flyweight (-58kg)</SelectItem>
-                  <SelectItem value="Featherweight">Featherweight (-68kg)</SelectItem>
-                  <SelectItem value="Lightweight">Lightweight (-80kg)</SelectItem>
-                  <SelectItem value="Heavyweight">Heavyweight (+80kg)</SelectItem>
                 </SelectContent>
               </Select>
             </FormItem>
