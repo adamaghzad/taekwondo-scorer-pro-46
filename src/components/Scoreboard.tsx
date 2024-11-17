@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import PlayerCard from './PlayerCard';
 import Timer from './Timer';
@@ -8,6 +8,7 @@ import { Button } from './ui/button';
 import { ScoringType } from '@/utils/scoringUtils';
 import MatchHeader from './match/MatchHeader';
 import MatchControls from './match/MatchControls';
+import { saveMatchState } from '@/utils/matchState';
 
 type VictoryType = 'PTF' | 'RSC' | 'WDR' | 'DSQ' | 'DQB' | null;
 type RSCReason = 'KO' | 'REFUSAL' | 'SAFETY' | 'MEDICAL' | null;
@@ -56,6 +57,18 @@ const Scoreboard = () => {
     gamJeomScore: 0,
     roundsWon: 0
   });
+
+  // Save state whenever it changes
+  useEffect(() => {
+    saveMatchState({
+      bluePlayer,
+      redPlayer,
+      round,
+      isRunning,
+      isRest,
+      knockdownCount
+    });
+  }, [bluePlayer, redPlayer, round, isRunning, isRest, knockdownCount]);
 
   const endMatch = (winner: 'blue' | 'red', type: VictoryType, reason?: RSCReason) => {
     setMatchEnded(true);
