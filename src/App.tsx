@@ -31,6 +31,7 @@ const App = () => (
           <Route path="/display" element={<Display />} />
 
           <Route path="/" element={<Tournament />} />
+           <Route path="/index" element={<Index />} />
           
           
           
