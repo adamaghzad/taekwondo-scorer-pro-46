@@ -3,6 +3,8 @@ export interface MatchState {
     name: string;
     country: string;
     team?: string;
+    category?: string;
+    weight?: number;
     score: number;
     punchScore: number;
     kickScore: number;
@@ -14,6 +16,8 @@ export interface MatchState {
     name: string;
     country: string;
     team?: string;
+    category?: string;
+    weight?: number;
     score: number;
     punchScore: number;
     kickScore: number;
