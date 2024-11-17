@@ -4,25 +4,7 @@ import { Card } from "@/components/ui/card";
 import { toast } from "sonner";
 import TournamentBracket from './TournamentBracket';
 import ParticipantForm from './ParticipantForm';
-
-interface Participant {
-  id: string;
-  name: string;
-  weight: number;
-  rank: string;
-  category: string;
-  team?: string;
-  country: string;
-}
-
-interface Match {
-  id: string;
-  participant1: Participant | null;
-  participant2: Participant | null;
-  winner: Participant | null;
-  round: number;
-  isComplete: boolean;
-}
+import { Match, Participant } from '@/types/tournament';
 
 const STORAGE_KEY = 'tournament_brackets';
 

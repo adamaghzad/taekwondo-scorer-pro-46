@@ -43,8 +43,7 @@ const Display = () => {
         isUpdating ? "opacity-80 scale-[0.99]" : "opacity-100 scale-100"
       )}>
         <MatchHeader 
-          category={`${matchState.bluePlayer?.category || "Men's"} ${matchState.bluePlayer?.weight || "55"}kg`}
-          matchNumber="Match"
+          matchNumber={`Match ${matchState.matchId || 1}`}
           knockdownCount={matchState.knockdownCount}
         />
         

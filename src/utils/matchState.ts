@@ -29,6 +29,7 @@ export interface MatchState {
   isRunning: boolean;
   isRest: boolean;
   knockdownCount: number;
+  matchId?: string;
 }
 
 const MATCH_STATE_KEY = 'current_match_state';
